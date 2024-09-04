@@ -78,11 +78,13 @@ function computerNumberGuess(guessType) {
     const guessedNumber = Math.floor(Math.random() * 100);
     const numberHTML = document.querySelector(".computer-guess");
     const guessListHTML = document.querySelector(".guess-list");
+    const actionButtons = document.querySelector(".action-buttons-container");
 
     document.querySelector(".button-guess").classList.add("hide");
 
     switch (guessType) {
         case "start":
+            actionButtons.classList.remove("hide");
             numberHTML.innerHTML = `<strong>${guessedNumber}</strong>`;
             guessCount++;
             break;
