@@ -1,5 +1,7 @@
 window.addEventListener('load', start);
 
+let guessCount = 0;
+
 function start() {
     console.log("The guesser has started up.");
     addButtonEventListeners();
@@ -46,7 +48,7 @@ function onButtonCorrectClick(event) {
 }
 
 function onButtonGuessClick() {
-    computerNumberGuess();
+    computerNumberGuess("start");
 }
 
 function onButtonResetClick() {
@@ -66,7 +68,7 @@ function buttonClicked(buttonType, event) {
             computerNumberGuess("higher");
             break;
         } case "button-correct": {
-            correctGuess();
+            correctGuess(guessCount);
             break;
         }
     }
@@ -79,17 +81,52 @@ function computerNumberGuess(guessType) {
 
     document.querySelector(".button-guess").classList.add("hide");
 
-    numberHTML.innerHTML = `<strong>${guessedNumber}</strong>`;
-    if (guessType === "lower") {
-        guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too high</li>`;
-    } else if (guessType === "higher") {
-        guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too low</li>`;
+    switch (guessType) {
+        case "start":
+            numberHTML.innerHTML = `<strong>${guessedNumber}</strong>`;
+            guessCount++;
+            break;
+        case "lower":
+            guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too high</li>`;
+            guessCount++;
+            break;
+        case "higher":
+            guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too low</li>`;
+            guessCount++;
+            break;
     }
 
     return guessedNumber;
 }
 
-function correctGuess() {
-    document.querySelector(".correct-guess").classList.remove("hide");
+function correctGuess(guessCount) {
     document.querySelector(".guess-list").innerHTML = "";
+    const correctGuessMessageDiv = document.querySelector(".correct-guess");
+    const correctGuessMessage = document.querySelector(".correct-guess-text");
+
+    correctGuessMessageDiv.classList.remove("hide");
+
+    switch (guessCount) {
+        case 1:
+            correctGuessMessage.innerHTML = `Excellent, I only used ${guessCount} guess!`;
+            break;
+        case 2:
+            correctGuessMessage.innerHTML = `Great, I only used ${guessCount} guesses!`;
+            break;
+        case 3:
+            correctGuessMessage.innerHTML = `Good, I only used ${guessCount} guesses!`;
+            break;
+        case 4:
+            correctGuessMessage.innerHTML = `Not bad, I used ${guessCount} guesses!`;
+            break;
+        case 5:
+            correctGuessMessage.innerHTML = `Bad, I used ${guessCount} guesses!`;
+            break;
+        case 6:
+            correctGuessMessage.innerHTML = `Very bad, I used ${guessCount} guesses!`;
+            break;
+        case 7:
+            correctGuessMessage.innerHTML = `Terrible, I used ${guessCount} guesses!`;
+            break;
+    }
 }
