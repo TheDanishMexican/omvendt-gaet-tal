@@ -82,6 +82,12 @@ function computerNumberGuess(guessType) {
 
     document.querySelector(".button-guess").classList.add("hide");
 
+    if (guessCount === 7) {
+        actionButtons.classList.add("not-allowed");
+        guessListHTML.innerHTML += `<li class="last-guess">Since I have already guessed 6 times and I am using binary search the guess ${guessedNumber} has to be correct!</li>`;
+        return;
+    }
+
     switch (guessType) {
         case "start":
             actionButtons.classList.remove("hide");

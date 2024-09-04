@@ -62,6 +62,13 @@ body {
     background-color: rgba(237, 240, 89, 0.384);
 }
 
+.guess-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+}
+
 .correct-guess {
     background-color: green;
     width: 1000px;
@@ -104,4 +111,17 @@ body {
 
 .hide {
     display: none;
+}
+
+.not-allowed {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.last-guess {
+    background-color: rgba(240, 137, 89, 0.904);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
 }
