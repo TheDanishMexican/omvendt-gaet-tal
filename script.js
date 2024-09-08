@@ -1,6 +1,7 @@
 window.addEventListener('load', start);
 
 let guessCount = 0;
+let currentGuess = null;
 
 function start() {
     console.log("The guesser has started up.");
@@ -61,10 +62,10 @@ function buttonClicked(buttonType, event) {
     event.preventDefault();
 
     switch (buttonType.className) {
-        case "button-lower": {
+        case "button-lower choice": {
             computerNumberGuess("lower");
         } break;
-        case "button-higher": {
+        case "button-higher choice": {
             computerNumberGuess("higher");
             break;
         } case "button-correct": {
@@ -75,36 +76,41 @@ function buttonClicked(buttonType, event) {
 }
 
 function computerNumberGuess(guessType) {
-    const guessedNumber = Math.floor(Math.random() * 100);
     const numberHTML = document.querySelector(".computer-guess");
     const guessListHTML = document.querySelector(".guess-list");
     const actionButtons = document.querySelector(".action-buttons-container");
+    const choiceButtons = document.querySelectorAll(".choice");
 
     document.querySelector(".button-guess").classList.add("hide");
 
     if (guessCount === 7) {
-        actionButtons.classList.add("not-allowed");
-        guessListHTML.innerHTML += `<li class="last-guess">Since I have already guessed 6 times and I am using binary search the guess ${guessedNumber} has to be correct!</li>`;
+        choiceButtons.forEach(button => button.classList.add("not-allowed"));
+        guessListHTML.innerHTML += `<li class="last-guess">Since I have already guessed 6 times and I am using binary search the guess ${currentGuess} has to be correct!</li>`;
         return;
     }
 
     switch (guessType) {
         case "start":
+            currentGuess = Math.floor(Math.random() * 100);
             actionButtons.classList.remove("hide");
-            numberHTML.innerHTML = `<strong>${guessedNumber}</strong>`;
+            numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
         case "lower":
-            guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too high</li>`;
+            guessListHTML.innerHTML += `<li>My guess ${currentGuess} was too high</li>`;
+            currentGuess = Math.floor(Math.random() * 100);
+            numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
         case "higher":
-            guessListHTML.innerHTML += `<li>My guess ${guessedNumber} was too low</li>`;
+            guessListHTML.innerHTML += `<li>My guess ${currentGuess} was too low</li>`;
+            currentGuess = Math.floor(Math.random() * 100);
+            numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
     }
 
-    return guessedNumber;
+    return currentGuess;
 }
 
 function correctGuess(guessCount) {
