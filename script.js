@@ -2,6 +2,8 @@ window.addEventListener('load', start);
 
 let guessCount = 0;
 let currentGuess = null;
+let min = 0;
+let max = 100;
 
 function start() {
     console.log("The guesser has started up.");
@@ -91,20 +93,22 @@ function computerNumberGuess(guessType) {
 
     switch (guessType) {
         case "start":
-            currentGuess = Math.floor(Math.random() * 100);
+            currentGuess = binarySearchGuess(min, max);
             actionButtons.classList.remove("hide");
             numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
         case "lower":
             guessListHTML.innerHTML += `<li>My guess ${currentGuess} was too high</li>`;
-            currentGuess = Math.floor(Math.random() * 100);
+            max = currentGuess - 1;
+            currentGuess = binarySearchGuess(min, max);
             numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
         case "higher":
             guessListHTML.innerHTML += `<li>My guess ${currentGuess} was too low</li>`;
-            currentGuess = Math.floor(Math.random() * 100);
+            min = currentGuess + 1;
+            currentGuess = binarySearchGuess(min, max);
             numberHTML.innerHTML = `<strong>${currentGuess}</strong>`;
             guessCount++;
             break;
@@ -143,4 +147,8 @@ function correctGuess(guessCount) {
             correctGuessMessage.innerHTML = `Terrible, I used ${guessCount} guesses!`;
             break;
     }
+}
+
+function binarySearchGuess(min, max) {
+    return Math.floor((min + max) / 2);
 }
